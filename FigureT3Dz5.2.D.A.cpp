@@ -203,7 +203,7 @@ protected:
         this->c = a;
         this->d = a;
         this->A = A;
-        this->b = B;
+        this->B = B;
         this->C = A;
         this->D = B;
 
