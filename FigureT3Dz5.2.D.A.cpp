@@ -1,5 +1,4 @@
-﻿// FigureT3Dz5.2.D.A.
-// Test5.2Figure.cpp 
+﻿// FigureT3Dz5.2.D.A
 
 #include <iostream>
 #include <windows.h>
@@ -11,7 +10,12 @@ using std::string;
 class Figure {
 protected:
     int _side_count;//число сторон
-    string  name = "фигура:\t\t ";
+    std::string  name = "фигура:\t\t ";
+
+    //добавлено
+
+    int a, b, c, d;//длины сторон
+    int A, B, C, D;//величины углов
 
     Figure(int _side_count) : _side_count(_side_count) {}//конструктор с параметром
 
@@ -23,14 +27,19 @@ public:
 //треугольник
 class Triangle : public Figure {
 protected:
-    int a, b, c;//длины сторон
-    int A, B, C;//величины углов     
-    Triangle(int a, int b, int c, int A, int B, int C) : a(a), b(b), c(c), A(A), B(B), C(C)
-    {}
+    //убраны переменные  в фигуру
+    Triangle(int a, int b, int c, int A, int B, int C) {
+        this->a = a;
+        this->b = b;
+        this->c = c;
+        this->A = A;
+        this->B = B;
+        this->C = C;
+    }
 
 
 public:
-    Triangle() :Triangle(a = 10, b = 20, c = 30, A = 50, B = 60, C = 70) { name = "треугольник:"; _side_count = 3; }
+    Triangle() :Triangle(10, 20, 30, 50, 60, 70) { name = "треугольник:"; _side_count = 3; }//Изменено - тут я ввожу что хочу где цифры...
 
     int get_a() { return a; }
     int get_b() { return b; }
@@ -46,60 +55,78 @@ public:
 //прямоугольный треугольник
 class RectangularTriangle : public Triangle {
 protected:
-    const int C_ = C = 90;
-    RectangularTriangle(int a, int b, int c, int A, int B) :Triangle() { name = "прямоугольный треугольник:"; }
 
-
+    RectangularTriangle(int a, int b, int c, int A, int B) :Triangle() {
+        name = "прямоугольный треугольник:";
+        //изменено
+        this->a = a;
+        this->b = b;
+        this->c = c;
+        this->A = A;
+        this->B = B;
+        this->C = 90;
+    }
 
 public:
 
-    RectangularTriangle() : RectangularTriangle(a, b, c, A, B) {}
+    RectangularTriangle() : RectangularTriangle(10, 20, 30, 50, 60) {}//вводим все кроме угла С
 };
 
 //Равнобедренный треугольник
 class IsoscelesTriangle : public Triangle {
 protected:
-    const int Side = c = a;
-    const int Angle = C = A;
 
     IsoscelesTriangle(int a, int b, int A, int B) :Triangle() {
         name = "равнобедренный треугольник:";
+        this->a = a;
+        this->b = b;
+        this->c = a;//изменено
+        this->A = A;
+        this->B = B;
+        this->C = A;//изменено
     }
 public:
 
-    IsoscelesTriangle() :IsoscelesTriangle(a, b, A, B) {}
+    IsoscelesTriangle() :IsoscelesTriangle(10, 20, 50, 60) {}//вводим размеры равнобедренного тр-ка без угла С и стороны с
 };
 
 //Равносторонний треугольник
 class EquilateralTriangle : public Triangle {
 protected:
-    const int Side = c = b = a = 30;
-    const int Angle = C = B = A = 60;
+
 
     EquilateralTriangle(int a) :Triangle() {
         name = "равноcторонний треугольник:";
+        this->a = a;//изменено
+        this->b = a;//изменено
+        this->c = a;//изменено
+        this->A = 60;//изменено
+        this->B = A;//изменено
+        this->C = A;//изменено
     }
 
 public:
-    EquilateralTriangle() :EquilateralTriangle(a) {}
+    EquilateralTriangle() :EquilateralTriangle(30) {}
 };
-
 
 //четырехугольник
 class Quadrangle : public Figure {
 protected:
-    int a, b, c, d;//длины сторон
-    int A, B, C, D;//величины углов
 
-    Quadrangle(int _a, int _b, int _c, int _d, int _A, int _B, int _C, int _D) : a(_a), b(_b), c(_c), d(_d), A(_A), B(_B), C(_C),
-        D(_D)
-    {}
+    Quadrangle(int a, int b, int c, int d, int A, int B, int C, int D) {
+        this->a = a;
+        this->b = b;
+        this->c = c;
+        this->d = d;
+        this->A = A;
+        this->B = B;
+        this->C = C;
+        this->D = D;
+    }
 public:
 
-    Quadrangle() :Quadrangle(a = 10, b = 20, c = 30, d = 40, A = 50, B = 60, C = 70, D = 80)
-    {
-        name = "четырехугольник:"; _side_count = 4;
-    }
+    Quadrangle() :Quadrangle(10, 20, 30, 40, 50, 60, 70, 80) { name = "четырехугольник:"; _side_count = 4; }
+
     int get_a() { return a; }
     int get_b() { return b; }
     int get_c() { return c; }
@@ -112,59 +139,84 @@ public:
 //  параллелограмм
 class Parallelogram : public Quadrangle {
 protected:
-    int a_c = c = a = 20;
-    const int b_d = d = b = 30;
-    const int A_C = C = A = 30;
-    const int B_D = D = B = 40;
-
-    Parallelogram(int a, int b, int A, int B) :Quadrangle() { name = "параллелограмм:"; }
+    Parallelogram(int a, int b, int A, int B) :Quadrangle() {
+        name = "параллелограмм:";
+        //изменено
+        this->a = a;
+        this->b = b;
+        this->c = a;
+        this->d = b;
+        this->A = A;
+        this->B = B;
+        this->C = A;
+        this->D = B;
+    }
 public:
-    Parallelogram() : Parallelogram(a_c, b_d, A_C, B_D) {}
+    Parallelogram() : Parallelogram(20, 30, 30, 40) {}
 };
 
 // прямоугольник
 class _Rectangle : public Parallelogram {
 protected:
-    const int Angle = A = B = C = D = 90;
-    const int a_c = c = a = 10;
-    const int b_d = d = b = 20;
-    _Rectangle(int a, int b, int A) :Parallelogram() {
+    _Rectangle(int a, int b) :Parallelogram() {
         name = "прямоугольник:";
+        //изменено
+        this->a = a;
+        this->b = b;
+        this->c = a;
+        this->d = b;
+        this->A = 90;
+        this->B = A;
+        this->C = A;
+        this->D = A;
     }
 public:
-
-    _Rectangle() : _Rectangle(a_c, b_d, Angle) {}
+    _Rectangle() : _Rectangle(10, 20) {}
 };
+
 //квадрат
 class _Square : public _Rectangle {
 protected:
-    const int Side = d = c = b = a = 20;
-    const int Angle = A = B = C = D = 90;
 
 
-    _Square(int a, int A) :_Rectangle() { name = "квадрат:"; }
 
+    _Square(int a) :_Rectangle() {
+        name = "квадрат:";
+        //изменено 
+        this->a = a;
+        this->b = a;
+        this->c = a;
+        this->d = a;
+    }
 public:
-    _Square() : _Square(Side, Angle) {}
+    _Square() : _Square(20) {}
 };
 
 //ромб
 class Romb : public Parallelogram {
 protected:
-    const int Side = d = c = b = a = 30;
-    const int A_C = C = A = 30;
-    const int B_D = D = B = 40;
 
+    Romb(int a, int A, int B) :Parallelogram() {
+        name = "ромб:";
+        this->a = a;
+        this->b = a;
+        this->c = a;
+        this->d = a;
+        this->A = A;
+        this->b = B;
+        this->C = A;
+        this->D = B;
 
-    Romb(int a, int A, int B) :Parallelogram() { name = "ромб:"; }
+    }
 
 public:
-    Romb() : Romb(Side, A_C, B_D) {}
+    Romb() : Romb(30, 30, 40) {}
 };
 
+//Не стал функции менять - вы сказали не обязательно так как в 3м задании сделано...
+//во втором задании я подумал что не надо пока виртуальные функции использовать
 
-
-//прототипы функции печати
+//прототипы функции принт
 void Print_Info(Triangle*);
 void Print_Info(Quadrangle* figure);
 
@@ -200,6 +252,7 @@ int main()
 
     Romb romb; cout << romb.get_name() << endl;
     Print_Info(&romb);
+    return 0;
 
     return 0;
 }
@@ -218,4 +271,3 @@ void Print_Info(Quadrangle* figure) {
         << " B=" << figure->get_B() << " C=" << figure->get_C() << " D="
         << figure->get_D() << endl << endl;
 }
-
